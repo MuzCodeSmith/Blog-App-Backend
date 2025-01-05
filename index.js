@@ -5,5 +5,5 @@ app.listen(4000,()=>{
     console.log("app is running")
 })
 app.get('/',(req,res)=>{
-    res.send("<h1>Home Page</h1>")
+    res.send("<h1>Home Page1</h1>")
 })
