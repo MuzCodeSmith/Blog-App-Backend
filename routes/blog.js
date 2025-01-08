@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/blogs',(req,res)=>{
-    res.send('<h1>welcome to blog route</h1>')
-})
+const {createComment} = require('../controllers/commentController') 
+
+router.post('/comments/create',createComment)
 
 module.exports = router;
