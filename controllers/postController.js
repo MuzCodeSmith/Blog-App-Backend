@@ -21,3 +21,19 @@ exports.createPost = async (req,res) =>{
 
     }
 }
+
+exports.getAllPosts = async (req,res) =>{
+    try{
+        const posts = await Post.find({});
+        res.status(200).json({
+            success:true,
+            data:posts,
+            message:"post created successfully!"
+        })
+    }catch(error){
+        res.status(500).json({
+            success:false,
+            error:error.message,
+        })
+    }
+}
