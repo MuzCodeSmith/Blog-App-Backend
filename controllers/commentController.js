@@ -31,4 +31,30 @@ exports.createComment = async (req,res) =>{
     }
 }
 
-exports.get
+
+exports.getCommentsByPostId = async (req,res) =>{
+    try{
+        const {id} = req.params;
+        console.log(id)
+        const comments = await Comment.find({post:id});
+        console.log(comments)
+        if(!comments || comments.length === 0){
+            return res.status(404).json({
+                success:false,
+                data:[],
+                message:"no comments found!",
+            })
+        }
+        res.status(200).json({
+            success:true,
+            data:comments,
+            message:`comments of post:${id}`
+        })
+
+    }catch(error){
+        res.status(500).json({
+            success:false,
+            error:error.message,
+        })
+    }
+}
