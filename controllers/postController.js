@@ -37,3 +37,46 @@ exports.getAllPosts = async (req,res) =>{
         })
     }
 }
+
+exports.getPost = async (req,res) =>{
+    try{
+        const id = req.params.id;
+        const post =  await Post.find({_id:id});
+        console.log(post)
+        if(!post){
+            res.status(404).json({
+                success:false,
+                message:"post not found",
+                data:null,
+            })
+        }
+        res.status(200).json({
+            success:true,
+            data:post,
+            message:"post fetched successfully"
+        })
+    }
+    catch(error){
+        res.status(500).json({
+            success:false,
+            error:error.message,
+        })
+    }
+    
+}
+
+exports.deletePost = async (req,res)=>{
+    try{
+        const id = req.params.id;
+        await Post.findByIdAndDelete(id);
+        res.status(200).json({
+            success:true,
+            message:"post deleted successfully",
+        })
+    }catch(error){
+        res.status(500).json({
+            success:false,
+            error:error.message,
+        })
+    }
+}
