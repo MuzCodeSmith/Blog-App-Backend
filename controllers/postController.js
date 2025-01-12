@@ -24,7 +24,7 @@ exports.createPost = async (req,res) =>{
 
 exports.getAllPosts = async (req,res) =>{
     try{
-        const posts = await Post.find({});
+        const posts = await Post.find({}).populate('comments').exec();
         res.status(200).json({
             success:true,
             data:posts,
@@ -41,7 +41,7 @@ exports.getAllPosts = async (req,res) =>{
 exports.getPost = async (req,res) =>{
     try{
         const id = req.params.id;
-        const post =  await Post.find({_id:id});
+        const post =  await Post.find({_id:id}).populate('comments').exec();
         console.log(post)
         if(!post){
             res.status(404).json({
@@ -72,6 +72,25 @@ exports.deletePost = async (req,res)=>{
         res.status(200).json({
             success:true,
             message:"post deleted successfully",
+        })
+    }catch(error){
+        res.status(500).json({
+            success:false,
+            error:error.message,
+        })
+    }
+}
+
+exports.updatePost = async (req,res)=>{
+    try{
+        const id = req.params.id;
+        const {title,body} = req.body;
+        const updatedPost = await Post.findByIdAndUpdate(id,{title,body,updatedAt:Date.now()},{new:true});
+        console.log(updatedPost)
+        res.status(200).json({
+            success:true,
+            data:updatedPost,
+            message:"post updated successfully"
         })
     }catch(error){
         res.status(500).json({
