@@ -3,12 +3,10 @@ const Post = require('../models/postModel')
 
 exports.createComment = async (req,res) =>{
     try{
-        console.log("req.body:",req.body)
         const {post,user,body} = req.body;
         const comment = new Comment({
             post,body,user
         })
-
 
         const savedComment = await comment.save()
 
@@ -32,3 +30,5 @@ exports.createComment = async (req,res) =>{
 
     }
 }
+
+exports.get

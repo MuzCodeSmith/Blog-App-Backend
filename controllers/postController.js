@@ -24,7 +24,7 @@ exports.createPost = async (req,res) =>{
 
 exports.getAllPosts = async (req,res) =>{
     try{
-        const posts = await Post.find({}).populate('comments').exec();
+        const posts = await Post.find({}).populate('comments').populate('likes').exec();
         res.status(200).json({
             success:true,
             data:posts,
@@ -41,7 +41,7 @@ exports.getAllPosts = async (req,res) =>{
 exports.getPost = async (req,res) =>{
     try{
         const id = req.params.id;
-        const post =  await Post.find({_id:id}).populate('comments').exec();
+        const post =  await Post.find({_id:id}).populate('comments').populate('likes').exec();
         console.log(post)
         if(!post){
             res.status(404).json({

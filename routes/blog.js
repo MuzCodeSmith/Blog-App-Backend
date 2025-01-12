@@ -2,9 +2,13 @@ const express = require('express');
 const router = express.Router();
 
 const {createComment} = require('../controllers/commentController') 
+const {createLike} = require('../controllers/likeController')
 const {createPost,getAllPosts,getPost,deletePost,updatePost} = require('../controllers/postController')
 
 router.post('/comments/create',createComment);
+
+router.post('/like/create',createLike)
+
 router.post('/post/create',createPost)
 router.get('/post/posts',getAllPosts)
 router.get('/post/:id',getPost)
