@@ -34,9 +34,9 @@ exports.createComment = async (req,res) =>{
 
 exports.getCommentsByPostId = async (req,res) =>{
     try{
-        const {id} = req.params;
-        console.log(id)
-        const comments = await Comment.find({post:id});
+        const {postId} = req.params;
+        const comments = await Comment.find({post:postId});
+        console.log(postId)
         console.log(comments)
         if(!comments || comments.length === 0){
             return res.status(404).json({
@@ -48,7 +48,7 @@ exports.getCommentsByPostId = async (req,res) =>{
         res.status(200).json({
             success:true,
             data:comments,
-            message:`comments of post:${id}`
+            message:`comments of post:${postId}`
         })
 
     }catch(error){
@@ -58,3 +58,41 @@ exports.getCommentsByPostId = async (req,res) =>{
         })
     }
 }
+
+exports.deleteCommentById = async (req,res) =>{
+    try{
+        const {id} = req.params;
+        await Comment.findByIdAndDelete(id);
+        res.status(200).json({
+            success:true,
+            message:"comment deleted successfully"
+        })
+    }catch(error){
+        res.status(500).json({
+            success:false,
+            error:error.message,
+        })
+    }
+}
+
+exports.updateCommentById = async (req,res) =>{
+    try{
+        const {id} =req.params;
+        
+        const {body} = req.body;
+        console.log(body)
+        const updatedComment = await Comment.findByIdAndUpdate(id,body,{new:true});
+        console.log(updatedComment)
+
+        res.status(200).json({
+            success:true,
+            data:updatedComment,
+            message:"comment updated successfully"
+        })
+    }catch(error){
+        res.status(500).json({
+            success:false,
+            error:error.message,
+        })
+    }
+} 
