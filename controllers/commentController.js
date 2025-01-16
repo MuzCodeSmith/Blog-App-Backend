@@ -36,8 +36,7 @@ exports.getCommentsByPostId = async (req,res) =>{
     try{
         const {postId} = req.params;
         const comments = await Comment.find({post:postId});
-        console.log(postId)
-        console.log(comments)
+
         if(!comments || comments.length === 0){
             return res.status(404).json({
                 success:false,
@@ -78,7 +77,7 @@ exports.deleteCommentById = async (req,res) =>{
 exports.updateCommentById = async (req,res) =>{
     try{
         const {id} =req.params;
-        
+
         const {body} = req.body;
         console.log(body)
         const updatedComment = await Comment.findByIdAndUpdate(id,body,{new:true});
