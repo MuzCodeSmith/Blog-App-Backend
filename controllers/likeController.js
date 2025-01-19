@@ -6,7 +6,7 @@ exports.createLike = async (req,res) =>{
         const like = await Like({user,post});
         const savedLike = await like.save()
         const updatedPost = await Post.findByIdAndUpdate(post,{$push:{likes:savedLike._id}},{new:true}).populate('likes').exec();
-
+        
         res.status(200).json({
             success:true,
             data:updatedPost,

@@ -73,7 +73,7 @@ exports.loginUser = async (req,res) =>{
 exports.getUserById = async (req, res) =>{
     try{
         const {userId} = req.params;
-        const user = await User.findOne({_id:userId});
+        const user = await User.findOne({_id:userId}).populate('posts');
         if(!user){
             return res.status(400).json({
                 success:false,
