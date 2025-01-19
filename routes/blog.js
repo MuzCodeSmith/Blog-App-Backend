@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const {createComment,getCommentsByPostId,deleteCommentById,updateCommentById} = require('../controllers/commentController') 
-const {createLike} = require('../controllers/likeController')
+const {createLike,getLikesByPostId,removeLike} = require('../controllers/likeController')
 const {createPost,getAllPosts,getPost,deletePost,updatePost} = require('../controllers/postController')
 
 // comment controllers
@@ -14,7 +14,10 @@ router.put('/comments/:id',updateCommentById) // delete comment
 
 
 // like controllers
-router.post('/likes', createLike); // Create a like
+router.post('/posts/:postId/like', createLike);
+router.get('/posts/:postId/likes',getLikesByPostId);
+router.delete('/unlike/:id',removeLike);
+
 
 // post controllers
 router.post('/posts', createPost); // Create a post
