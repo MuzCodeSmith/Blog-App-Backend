@@ -8,7 +8,7 @@ exports.createUser = async (req,res) =>{
         
         const alreadyExist = await User.findOne({email})
         if(alreadyExist){
-            res.json({
+            return res.json({
                message:'user already exist'
             })
         }
@@ -68,4 +68,66 @@ exports.loginUser = async (req,res) =>{
         })
     }
     
+}
+
+exports.getUserById = async (req, res) =>{
+    try{
+        const {userId} = req.params;
+        const user = await User.findOne({_id:userId});
+        if(!user){
+            return res.status(400).json({
+                success:false,
+                message:"user not found!"
+            })
+        }
+        res.status(200).json({
+            success:true,
+            data:user,
+            message:"user successfully fetched"
+        })
+    }catch(error){
+        res.status(500).json({
+            success:false,
+            error:error.message,
+        })
+    }
+}
+
+
+
+exports.getAllUsers = async (req, res) =>{
+    try{
+        const users = await User.find();
+        res.status(200).json({
+            success:true,
+            data:users,
+            message:"users fetched successfully!"
+        })
+    }catch(error){
+        res.status(500).json({
+            success:false,
+            error:error.message,
+        })
+    }
+}
+
+exports.deleteUser = async (req, res) =>{
+    try{
+        const {userId} = req.params;
+        const deletedUser = await User.findByIdAndDelete({_id:userId});
+        if(!deletedUser){
+            return res.status(400).json({
+                message:'user not found!'
+            })
+        }
+        res.status(200).json({
+            success:true,
+            message:"user deleted successfully"
+        })
+    }catch(error){
+        res.status(500).json({
+            success:false,
+            error:error.message,
+        })
+    }
 }

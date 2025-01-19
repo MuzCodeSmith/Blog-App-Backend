@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {createUser, loginUser} =require('../controllers/userController');
+const {createUser, loginUser,deleteUser,getUserById, getAllUsers} =require('../controllers/userController');
 const {createComment,getCommentsByPostId,deleteCommentById,updateCommentById} = require('../controllers/commentController') 
 const {createLike,getLikesByPostId,removeLike} = require('../controllers/likeController')
 const {createPost,getAllPosts,getPost,deletePost,updatePost} = require('../controllers/postController')
@@ -8,6 +8,10 @@ const {createPost,getAllPosts,getPost,deletePost,updatePost} = require('../contr
 // user controllers
 router.post('/register',createUser)
 router.post('/login',loginUser)
+router.get('/user/:userId',getUserById)
+router.get('/users',getAllUsers)
+router.delete('/:userId/delete',deleteUser)
+
 
 // comment controllers
 router.post('/comments', createComment); // Create a comment
