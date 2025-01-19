@@ -1,16 +1,23 @@
 const Post = require('../models/postModel')
+const User = require('../models/userModel')
 
 exports.createPost = async (req,res) =>{
     try{
-        const {title, body} = req.body;
+        const {title, body, author} = req.body;
+
+        console.log(title, body, author)
+
         const post = await Post({
-            title, body
+            title, body, author
         })
         const savedPost = await post.save();
 
+        // add to user model
+        const updatedUser = await User.findByIdAndUpdate(author,{$push:{posts:savedPost._id}},{new:true}).populate({path:'posts', select:'title body likes comments'}).exec() 
+
         res.status(201).json({
             success:true,
-            data:savedPost,
+            data:updatedUser,
             message:"post created successfully!"
         })
     }catch(error){
