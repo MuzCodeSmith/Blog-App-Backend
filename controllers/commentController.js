@@ -35,12 +35,8 @@ exports.createComment = async (req,res) =>{
 exports.getCommentsByPostId = async (req,res) =>{
     try{
         const {postId} = req.params;
-        console.log("postId:",postId)
-        const comments = await Comment.find({_id:postId}).populate({path:'user', select:'name'}).exec();
-        console.log(comments)
-
-
-        if(!comments || comments.length === 0){
+        const post = await Post.findById({_id:postId}).populate({path:'comments',select:'user body'}).exec();
+        if(!post || post.comments.length === 0){
             return res.status(404).json({
                 success:false,
                 data:[],
@@ -49,7 +45,7 @@ exports.getCommentsByPostId = async (req,res) =>{
         }
         res.status(200).json({
             success:true,
-            data:comments,
+            data:post.comments,
             message:`comments of post:${postId}`
         })
 
