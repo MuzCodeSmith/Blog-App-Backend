@@ -3,14 +3,14 @@ const Post = require('../models/postModel')
 
 exports.createComment = async (req,res) =>{
     try{
-        const {post,user,body} = req.body;
+        const {postId} = req.params;
+        const {body,user} = req.body;
         const comment = new Comment({
-            post,body,user
+            body,user
         })
-
         const savedComment = await comment.save()
 
-        const updatedPost = await Post.findByIdAndUpdate(post,{$push:{comments:savedComment._id}},{new:true})
+        const updatedPost = await Post.findByIdAndUpdate(postId,{$push:{comments:savedComment._id}},{new:true})
         .populate("comments").exec();
     
         res.status(201).json({
@@ -35,7 +35,10 @@ exports.createComment = async (req,res) =>{
 exports.getCommentsByPostId = async (req,res) =>{
     try{
         const {postId} = req.params;
-        const comments = await Comment.find({post:postId});
+        console.log("postId:",postId)
+        const comments = await Comment.find({_id:postId}).populate({path:'user', select:'name'}).exec();
+        console.log(comments)
+
 
         if(!comments || comments.length === 0){
             return res.status(404).json({

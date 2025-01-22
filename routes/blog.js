@@ -3,7 +3,7 @@ const router = express.Router();
 const {createUser, loginUser,deleteUser,getUserById, getAllUsers} =require('../controllers/userController');
 const {createComment,getCommentsByPostId,deleteCommentById,updateCommentById} = require('../controllers/commentController') 
 const {createLike,getLikesByPostId,removeLike} = require('../controllers/likeController')
-const {createPost,getAllPosts,getPost,deletePost,updatePost} = require('../controllers/postController')
+const {createPost,getAllPosts,getAllUserPosts, getPost,deletePost,updatePost} = require('../controllers/postController')
 
 // user controllers
 router.post('/register',createUser)
@@ -14,7 +14,7 @@ router.delete('/:userId/delete',deleteUser)
 
 
 // comment controllers
-router.post('/comments', createComment); // Create a comment
+router.post('/posts/:postId/comment', createComment); // Create a comment
 router.get('/posts/:postId/comments', getCommentsByPostId); // Get comments for a post
 router.delete('/comments/:id',deleteCommentById) // delete comment
 router.put('/comments/:id',updateCommentById) // delete comment
@@ -32,6 +32,8 @@ router.get('/posts', getAllPosts); // Get all posts
 router.get('/posts/:id', getPost); // Get a single post by ID
 router.put('/posts/:id', updatePost); // Update a post by ID
 router.delete('/posts/:id', deletePost); // Delete a post by ID
+router.get('/:userId/posts',getAllUserPosts) //get all posts of user
+
 
 
 module.exports = router;

@@ -17,10 +17,10 @@ const postSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'Like'
     }],
-    author:[{
+    author:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Post'
-    }],
+    },
     createdAt:{
         type:Date,
         default:Date.now(),

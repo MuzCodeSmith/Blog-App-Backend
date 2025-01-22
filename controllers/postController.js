@@ -44,6 +44,22 @@ exports.getAllPosts = async (req,res) =>{
         })
     }
 }
+exports.getAllUserPosts = async (req,res) =>{
+    try{
+        const {userId} = req.params;
+        const user = await User.find({_id:userId}).populate('posts').exec();
+        console.log("userId:",userId)
+        console.log("posts:",user)
+        res.status(200).json({
+            data:user.posts,
+        })
+    }catch(error){
+        res.status(500).json({
+            success:false,
+            error:error.message,
+        })
+    }
+}
 
 exports.getPost = async (req,res) =>{
     try{
