@@ -78,10 +78,7 @@ exports.updateCommentById = async (req,res) =>{
     try{
         const {id} =req.params;
         const {body} = req.body;
-        console.log(body)
         const updatedComment = await Comment.findByIdAndUpdate(id,{body},{new:true});
-        console.log(updatedComment)
-
         res.status(200).json({
             success:true,
             data:updatedComment,
