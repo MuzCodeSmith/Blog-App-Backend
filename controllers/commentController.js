@@ -60,6 +60,7 @@ exports.getCommentsByPostId = async (req,res) =>{
 exports.deleteCommentById = async (req,res) =>{
     try{
         const {id} = req.params;
+        console.log(id)
         await Comment.findByIdAndDelete(id);
         res.status(200).json({
             success:true,
@@ -76,10 +77,9 @@ exports.deleteCommentById = async (req,res) =>{
 exports.updateCommentById = async (req,res) =>{
     try{
         const {id} =req.params;
-
         const {body} = req.body;
         console.log(body)
-        const updatedComment = await Comment.findByIdAndUpdate(id,body,{new:true});
+        const updatedComment = await Comment.findByIdAndUpdate(id,{body},{new:true});
         console.log(updatedComment)
 
         res.status(200).json({
