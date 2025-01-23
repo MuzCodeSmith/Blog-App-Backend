@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 exports.createUser = async (req,res) =>{
     try{
         const {name, email,password} = req.body;
-        console.log(name,email,password);
         
         const alreadyExist = await User.findOne({email})
         if(alreadyExist){

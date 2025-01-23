@@ -5,7 +5,6 @@ exports.createPost = async (req,res) =>{
     try{
         const {title, body, author} = req.body;
 
-        console.log(title, body, author)
 
         const post = await Post({
             title, body, author
@@ -48,8 +47,6 @@ exports.getAllUserPosts = async (req,res) =>{
     try{
         const {userId} = req.params;
         const user = await User.findById({_id:userId}).populate('posts').exec();
-        console.log("userId:",userId)
-        console.log("posts:",user)
         res.status(200).json({
             success:true,
             data:user.posts,
@@ -67,7 +64,6 @@ exports.getPost = async (req,res) =>{
     try{
         const id = req.params.id;
         const post =  await Post.find({_id:id}).populate('comments').populate('likes').exec();
-        console.log(post)
         if(!post){
             res.status(404).json({
                 success:false,
@@ -111,7 +107,6 @@ exports.updatePost = async (req,res)=>{
         const id = req.params.id;
         const {title,body} = req.body;
         const updatedPost = await Post.findByIdAndUpdate(id,{title,body,updatedAt:Date.now()},{new:true});
-        console.log(updatedPost)
         res.status(200).json({
             success:true,
             data:updatedPost,

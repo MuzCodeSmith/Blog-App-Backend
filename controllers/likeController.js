@@ -55,9 +55,7 @@ exports.getLikesByPostId = async (req, res) =>{
 exports.removeLike = async (req,res) =>{
     try{
         const {likeId,postId } = req.params;
-        console.log(likeId)
         const likeToRemove = await Like.findById(likeId);
-        console.log(likeToRemove)
         if (!likeToRemove) {
             return res.status(404).json({
                 success: false,

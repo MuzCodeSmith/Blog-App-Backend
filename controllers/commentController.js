@@ -20,8 +20,6 @@ exports.createComment = async (req,res) =>{
         })
 
     }catch(error){
-        console.log(error)
-        console.error(error);
         res.status(500).json({
             success:false,
             error:error.message,
@@ -60,7 +58,6 @@ exports.getCommentsByPostId = async (req,res) =>{
 exports.deleteCommentById = async (req,res) =>{
     try{
         const {id} = req.params;
-        console.log(id)
         await Comment.findByIdAndDelete(id);
         res.status(200).json({
             success:true,
